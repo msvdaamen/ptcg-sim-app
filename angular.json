@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "ptcg-sim-app"
+    }
+  },
+  "defaultProject": "ptcg-sim-app",
+  "cli": {
+    "analytics": "d55ca8aa-8ca5-4e4e-b4aa-d054de664807"
+  }
 }

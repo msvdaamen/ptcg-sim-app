@@ -1,0 +1,17 @@
+<div class="container">
+  <form [formGroup]="registerForm">
+    <mat-form-field class="full-width">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput placeholder="Email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput placeholder="Password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Password confirmation</mat-label>
+      <input type="password" matInput placeholder="Password confirmation" formControlName="passwordConfirmation">
+    </mat-form-field>
+    <button mat-button class="submit" [disabled]="registerForm.invalid" (click)="register()">Register</button>
+  </form>
+</div>
