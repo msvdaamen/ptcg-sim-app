@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {Apollo, gql} from 'apollo-angular';
 
 @Component({
   selector: 'app-login',
@@ -13,18 +14,46 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private apollo: Apollo
   ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
+      email: ['test@test.com', Validators.required],
+      password: ['test', Validators.required]
     });
   }
 
   login(): void {
-
+    const {
+      email,
+      password
+    } = this.loginForm.value;
+    this.apollo.mutate<{login: {accessToken: string}}>({
+       mutation: gql`
+         mutation login($email: String! $password: String!){
+           login(loginCredentials: {email: $email password: $password}) {
+             accessToken
+           }
+         }
+       `,
+      variables: {
+        email,
+        password
+      }
+    }).subscribe(({data}) => {
+      this.apollo.client.cache.writeQuery({
+        query: gql`
+            query accessToken {
+              accessToken @client
+            }
+        `,
+        data: {
+          accessToken: data.login.accessToken
+        }
+      });
+    });
     this.router.navigate(['']);
   }
 

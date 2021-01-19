@@ -10,6 +10,14 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
+  },
+  {
+    path: 'opener',
+    loadChildren: () => import('./pages/pack-opener/pack-opener.module').then(m => m.PackOpenerModule)
+  },
+  {
+    path: 'my-cards',
+    loadChildren: () => import('./pages/my-cards/my-cards.module').then(m => m.MyCardsModule)
   }
 ];
 

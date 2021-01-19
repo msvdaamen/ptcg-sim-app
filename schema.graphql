@@ -1,0 +1,95 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ImageEntity {
+  id: Int!
+  name: String!
+  filename: String!
+  url: String!
+}
+
+type RarityEntity {
+  id: Int!
+  name: String!
+  value: Float!
+}
+
+type CardEntity {
+  id: Int!
+  name: String!
+  hp: String
+  number: String
+  nationalPokedexNumber: Float
+  description: String
+  image: ImageEntity
+  imageHRes: ImageEntity
+  rarity: RarityEntity!
+  hasCard: Boolean!
+  amount: Float!
+}
+
+type AuthUser {
+  id: Float!
+  email: String!
+  accessToken: String!
+}
+
+type PaginationModel {
+  total: Float!
+  count: Float!
+  perPage: Float!
+  currentPage: Float!
+  totalPages: Float!
+}
+
+type CardPaginationModel {
+  cards: [CardEntity!]!
+  pagination: PaginationModel!
+}
+
+type CardTypeEntity {
+  id: Int!
+  name: String!
+}
+
+type PokemonTypeEntity {
+  id: Int!
+  name: String!
+}
+
+type Query {
+  hello: String!
+  cardsPaginated(pagination: PaginationArgs!, filter: CardFilterInput): CardPaginationModel!
+  myCards: [CardEntity!]!
+  rarities: [RarityEntity!]!
+  cardTypes: [CardTypeEntity!]!
+  pokemonTypes: [PokemonTypeEntity!]!
+}
+
+input PaginationArgs {
+  page: Float!
+  amount: Float!
+}
+
+input CardFilterInput {
+  name: String
+  rarity: Int
+}
+
+type Mutation {
+  login(loginCredentials: LoginInput!): AuthUser!
+  register(registerCredentials: RegisterInput!): AuthUser!
+  openPack: [CardEntity!]!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  passwordConfirmation: String!
+}
