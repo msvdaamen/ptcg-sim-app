@@ -1,1 +1,18 @@
-<p>pack-opener works!</p>
+<div class="center" *ngIf="!isOpeningPack && !packOverview">
+  <button mat-button (click)="openPack()">Open pack</button>
+</div>
+
+<div class="pack-open-container" *ngIf="isOpeningPack" #packOpenContainer>
+  <div class="card" *ngFor="let card of packCards; let i = index" (click)="viewNextCardStart(i)" [id]="'card-' + i" [@viewCardAnimation]="getAnimationState(i)" (@viewCardAnimation.done)="viewNextCard($event)">
+    <img [src]="card.image.url" alt="">
+  </div>
+</div>
+<div class="pack-overview-container" *ngIf="packOverview">
+  <div class="card" *ngFor="let card of cards; let i = index">
+    <img [src]="card.image.url" alt="">
+  </div>
+</div>
+
+<div class="next-pack" *ngIf="packOverview">
+  <button mat-button (click)="openPack()">Open pack</button>
+</div>

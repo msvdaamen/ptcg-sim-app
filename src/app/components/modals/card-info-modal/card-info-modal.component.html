@@ -1,0 +1,28 @@
+<div class="card" *ngIf="card$ | async as card">
+  <div class="spinner-container">
+    <mat-spinner *ngIf="!imageLoaded"></mat-spinner>
+  </div>
+  <div class="info-container" [class.loading]="!imageLoaded">
+    <div class="table-container">
+      <table class="mat-table">
+        <tbody>
+          <tr class="mat-row">
+            <td class="mat-cell">Name:</td>
+            <td class="mat-cell">{{card.name}}</td>
+          </tr>
+          <tr class="mat-row">
+            <td class="mat-cell">Amount owned:</td>
+            <td class="mat-cell">{{card.amount}}</td>
+          </tr>
+          <tr class="mat-row">
+            <td class="mat-cell">Rarity:</td>
+            <td class="mat-cell">{{card.rarity.name}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="image-container">
+      <img [src]="card.imageHRes.url" (load)="showInfo()">
+    </div>
+  </div>
+</div>

@@ -12,14 +12,10 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const cache = this.apollo.client.cache.readQuery<{accessToken: string}>({
-      query: gql`
-        query accessToken {
-          accessToken @client
-        }
-      `
-    });
-    const accessToken = cache?.accessToken ?? null;
+    let accessToken = 'no token';
+    if (localStorage.getItem('accessToken')) {
+      accessToken = localStorage.getItem('accessToken');
+    }
     if (accessToken) {
       const newReq = req.clone({
         setHeaders: {

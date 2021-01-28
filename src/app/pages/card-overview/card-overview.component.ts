@@ -1,47 +1,47 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Apollo, gql, QueryRef} from 'apollo-angular';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {CardEntity, CardPaginationModel, PaginationModel, RarityEntity} from '../../graphql';
-import {debounce, debounceTime, map, takeUntil} from 'rxjs/operators';
-import {BehaviorSubject, fromEvent, Observable, Subject} from 'rxjs';
+import {Apollo, gql, QueryRef} from 'apollo-angular';
 import {MatDialog} from '@angular/material/dialog';
-
-const MY_CARDS = gql`
-    query myCards($page: Float! $amount: Float! $rarity: Int $search: String) {
-      myCards(pagination: {page: $page, amount: $amount} filter: {rarity: $rarity, name: $search}) {
-        cards {
-          id
-          name
-          amount
-          image {
-            url
-          }
-        }
-        pagination {
-          count
-          currentPage
-          perPage
-          total
-          totalPages
-        }
-      }
-    }
-`;
+import {debounceTime, map, takeUntil} from 'rxjs/operators';
 
 const RARITY_QUERY = gql`
-    query {
-      rarities {
+  query {
+    rarities {
+      id
+      name
+    }
+  }
+`;
+
+const CARDS_QUERY = gql`
+  query cards($page: Float! $amount: Float! $rarity: Int $search: String) {
+    cardsPaginated(pagination: {page: $page, amount: $amount} filter: {rarity: $rarity, name: $search}) {
+      cards {
         id
         name
+        amount
+        image {
+          url
+        }
+      }
+      pagination {
+        count
+        currentPage
+        perPage
+        total
+        totalPages
       }
     }
+  }
 `;
 
 @Component({
-  selector: 'app-my-cards',
-  templateUrl: './my-cards.component.html',
-  styleUrls: ['./my-cards.component.scss']
+  selector: 'app-card-overview',
+  templateUrl: './card-overview.component.html',
+  styleUrls: ['./card-overview.component.scss']
 })
-export class MyCardsComponent implements OnInit, OnDestroy {
+export class CardOverviewComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   rarities$: Observable<RarityEntity[]>;
   search$ = new Subject<string>();
@@ -51,7 +51,7 @@ export class MyCardsComponent implements OnInit, OnDestroy {
   pagination: PaginationModel;
   page = 1;
   amount = 20;
-  cardsQuery: QueryRef<{myCards: CardPaginationModel}>;
+  cardsQuery: QueryRef<{cardsPaginated: CardPaginationModel}>;
   rarity: number;
   searchValue: string;
   rarity$ = new BehaviorSubject(null);
@@ -66,8 +66,8 @@ export class MyCardsComponent implements OnInit, OnDestroy {
       query: RARITY_QUERY
     }).pipe(map(({data}) => data.rarities));
 
-    this.cardsQuery = this.apollo.watchQuery<{myCards: CardPaginationModel}>({
-      query: MY_CARDS,
+    this.cardsQuery = this.apollo.watchQuery<{cardsPaginated: CardPaginationModel}>({
+      query: CARDS_QUERY,
       variables: {
         page: this.page,
         amount: this.amount,
@@ -77,8 +77,8 @@ export class MyCardsComponent implements OnInit, OnDestroy {
       }
     });
     this.cardsQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(({data}) => {
-      this.cards = data.myCards.cards;
-      this.pagination = data.myCards.pagination;
+      this.cards = data.cardsPaginated.cards;
+      this.pagination = data.cardsPaginated.pagination;
     });
 
     this.search$.pipe(
@@ -144,5 +144,4 @@ export class MyCardsComponent implements OnInit, OnDestroy {
   searchStart(value): void {
     this.search$.next(value);
   }
-
 }

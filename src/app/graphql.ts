@@ -27,6 +27,11 @@ export interface RegisterInput {
     passwordConfirmation: string;
 }
 
+export interface UserEntity {
+    id: number;
+    email: string;
+}
+
 export interface ImageEntity {
     id: number;
     name: string;
@@ -37,7 +42,8 @@ export interface ImageEntity {
 export interface RarityEntity {
     id: number;
     name: string;
-    value: number;
+    totalCards: number;
+    cardsOwned: number;
 }
 
 export interface CardEntity {
@@ -85,8 +91,10 @@ export interface PokemonTypeEntity {
 
 export interface IQuery {
     hello(): string | Promise<string>;
+    me(): UserEntity | Promise<UserEntity>;
     cardsPaginated(pagination: PaginationArgs, filter?: CardFilterInput): CardPaginationModel | Promise<CardPaginationModel>;
-    myCards(): CardEntity[] | Promise<CardEntity[]>;
+    card(id: number): CardEntity | Promise<CardEntity>;
+    myCards(pagination: PaginationArgs, filter?: CardFilterInput): CardPaginationModel | Promise<CardPaginationModel>;
     rarities(): RarityEntity[] | Promise<RarityEntity[]>;
     cardTypes(): CardTypeEntity[] | Promise<CardTypeEntity[]>;
     pokemonTypes(): PokemonTypeEntity[] | Promise<PokemonTypeEntity[]>;

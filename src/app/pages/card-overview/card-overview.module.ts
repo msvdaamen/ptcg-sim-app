@@ -1,27 +1,29 @@
 import {NgModule} from '@angular/core';
-import {MyCardsComponent} from './my-cards.component';
 import {CommonModule} from '@angular/common';
-import {MyCardsRoutingModule} from './my-cards-routing.module';
-import {LazyLoadImageModule} from '../../directives/lazy-load-image/lazy-load-image.module';
+import {CardOverviewRoutingModule} from './card-overview-routing.module';
+import {CardOverviewComponent} from './card-overview.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {LazyScrollModule} from '../../directives/lazy-scoll-directive/lazy-scroll.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+import {LazyLoadImageModule} from '../../directives/lazy-load-image/lazy-load-image.module';
 
 @NgModule({
   declarations: [
-    MyCardsComponent
+    CardOverviewComponent
   ],
   imports: [
     CommonModule,
-    MyCardsRoutingModule,
-    LazyLoadImageModule,
+    CardOverviewRoutingModule,
     MatDialogModule,
     LazyScrollModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatInputModule,
-    MatSelectModule
+    LazyLoadImageModule
   ]
 })
-export class MyCardsModule {}
+export class CardOverviewModule {
+
+}

@@ -1,0 +1,27 @@
+img {
+  //max-height: 500px;
+  //max-width: 70px;
+}
+
+.card > .loading {
+  visibility: hidden;
+}
+
+.info-container {
+  display: flex;
+}
+
+.table-container {
+  width: 50%;
+}
+.image-container {
+  width: 50%;
+
+  img {
+    width: 100%;
+  }
+}
+.spinner-container {
+  display: flex;
+  justify-content: center;
+}

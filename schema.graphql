@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type UserEntity {
+  id: Int!
+  email: String!
+}
+
 type ImageEntity {
   id: Int!
   name: String!
@@ -12,7 +17,8 @@ type ImageEntity {
 type RarityEntity {
   id: Int!
   name: String!
-  value: Float!
+  totalCards: Int!
+  cardsOwned: Int!
 }
 
 type CardEntity {
@@ -60,8 +66,10 @@ type PokemonTypeEntity {
 
 type Query {
   hello: String!
+  me: UserEntity!
   cardsPaginated(pagination: PaginationArgs!, filter: CardFilterInput): CardPaginationModel!
-  myCards: [CardEntity!]!
+  card(id: Int!): CardEntity!
+  myCards(pagination: PaginationArgs!, filter: CardFilterInput): CardPaginationModel!
   rarities: [RarityEntity!]!
   cardTypes: [CardTypeEntity!]!
   pokemonTypes: [PokemonTypeEntity!]!

@@ -43,18 +43,20 @@ export class LoginComponent implements OnInit {
         password
       }
     }).subscribe(({data}) => {
-      this.apollo.client.cache.writeQuery({
+      const accessToken = data.login.accessToken;
+      this.apollo.client.writeQuery({
         query: gql`
             query accessToken {
               accessToken @client
             }
         `,
         data: {
-          accessToken: data.login.accessToken
+          accessToken
         }
       });
+      localStorage.setItem('accessToken', accessToken);
+      this.router.navigate(['']);
     });
-    this.router.navigate(['']);
   }
 
 }

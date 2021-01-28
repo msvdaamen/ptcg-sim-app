@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="rarity" *ngFor="let rarity of rarities$ | async">
+    <span>{{rarity.name}}</span>
+    <div class="spinner">
+      <span class="message">{{getPercentage(rarity.cardsOwned, rarity.totalCards)}}%</span>
+      <mat-progress-spinner [value]="getPercentage(rarity.cardsOwned, rarity.totalCards)"></mat-progress-spinner>
+    </div>
+    <div class="amount">
+      {{rarity.cardsOwned}}/{{rarity.totalCards}}
+    </div>
+  </div>
+</div>
