@@ -145,4 +145,8 @@ export class MyCardsComponent implements OnInit, OnDestroy {
     this.search$.next(value);
   }
 
+  trackByF(index: number, card: CardEntity): number {
+    return card.id;
+  }
+
 }

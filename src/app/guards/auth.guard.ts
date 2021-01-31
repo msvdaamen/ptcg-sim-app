@@ -10,6 +10,7 @@ const ME_QUERY = gql`
     me {
       id
       email
+      balance
     }
   }
 `;

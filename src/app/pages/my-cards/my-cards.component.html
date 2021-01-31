@@ -1,6 +1,6 @@
 <div class="container" appLazyScroll (isBottom)="loadMore()">
   <div class="filters">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="filter-type">
       <mat-label>Type:</mat-label>
       <mat-select #rarity (selectionChange)="selectChanged(rarity.value)">
         <mat-option [value]="null">None</mat-option>
@@ -13,7 +13,7 @@
     </mat-form-field>
   </div>
   <div class="card-container">
-    <div class="card" *ngFor="let card of cards">
+    <div class="card" *ngFor="let card of cards; trackBy: trackByF">
       <span>{{card.name}} ({{card.amount}})</span>
       <div class="image-container">
         <img [src]="card.image.url" width="245" height="342" appLazyLoadImage (click)="viewCard(card.id)">

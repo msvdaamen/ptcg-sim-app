@@ -30,13 +30,14 @@ export class RarityOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.rarities$ = this.apollo.watchQuery<{rarities: RarityEntity[]}>({
-      query: RARITY_QUERY
+      query: RARITY_QUERY,
+      fetchPolicy: 'cache-and-network'
     }).valueChanges.pipe(
       map(({data}) => data.rarities)
     );
   }
 
-  getPercentage(amount: number, total: number) {
+  getPercentage(amount: number, total: number): number {
     return Math.ceil((100 / total) * amount);
   }
 

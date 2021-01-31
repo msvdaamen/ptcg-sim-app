@@ -6,6 +6,7 @@ import {map} from 'rxjs/operators';
 import {CommonModule} from '@angular/common';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatButtonModule} from '@angular/material/button';
 
 const CARD_QUERY = gql`
     query card($id: Int!) {
@@ -20,6 +21,16 @@ const CARD_QUERY = gql`
             name
           }
         }
+    }
+`;
+
+const QUICK_SELL = gql`
+    mutation sell($cardId: Int! $amount: Int!) {
+      quickSellCard(cardInfo: {cardId: $cardId amount:  $amount}) {
+        id
+        name
+        amount
+      }
     }
 `;
 
@@ -50,6 +61,33 @@ export class CardInfoModalComponent implements OnInit {
   showInfo(): void {
     this.imageLoaded = true;
   }
+
+  quickSell(cardId: number, amount: number): void {
+    this.apollo.mutate<{quickSellCard: CardEntity}>({
+      mutation: QUICK_SELL,
+      variables: {
+        cardId,
+        amount
+      },
+      update: (cache, mutationResult) => {
+        const soldCard = mutationResult.data.quickSellCard;
+        if (soldCard.amount === 0) {
+          cache.modify({
+            fields: {
+              myCards: (value, {readField}) => {
+                return {
+                  cards: value.cards.filter(card => soldCard.id !== readField('id', card)),
+                  pagination: value.pagination
+                };
+              }
+            }
+          });
+        }
+      }
+    }).subscribe(response => {
+
+    });
+  }
 }
 
 @NgModule({
@@ -58,7 +96,8 @@ export class CardInfoModalComponent implements OnInit {
   ],
   imports: [
     CommonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatButtonModule
   ]
 })
 class m {}

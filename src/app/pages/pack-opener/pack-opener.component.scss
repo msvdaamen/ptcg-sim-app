@@ -32,13 +32,22 @@
 }
 
 .pack-overview-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-  grid-column-gap: 1rem;
-  grid-row-gap: 2rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-bottom: 25px;
+
+  @media (min-width: 490px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+    grid-column-gap: 1rem;
+    grid-row-gap: 2rem;
+    justify-content: center;
+  }
 }
 .next-pack {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  position: fixed;
+  bottom: 5px;
+  width: 100%;
+  text-align: center;
 }

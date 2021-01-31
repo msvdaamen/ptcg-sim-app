@@ -1,6 +1,6 @@
 <div class="container" appLazyScroll (isBottom)="loadMore()">
   <div class="filters">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="filter-type">
       <mat-label>Type:</mat-label>
       <mat-select #rarity (selectionChange)="selectChanged(rarity.value)">
         <mat-option [value]="null">None</mat-option>

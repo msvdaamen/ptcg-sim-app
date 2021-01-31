@@ -5,6 +5,7 @@
 type UserEntity {
   id: Int!
   email: String!
+  balance: Float!
 }
 
 type ImageEntity {
@@ -54,6 +55,19 @@ type CardPaginationModel {
   pagination: PaginationModel!
 }
 
+type OrderEntity {
+  id: Int!
+  userId: Int!
+  cardId: Int!
+  price: Int!
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type CardTypeEntity {
   id: Int!
   name: String!
@@ -62,6 +76,11 @@ type CardTypeEntity {
 type PokemonTypeEntity {
   id: Int!
   name: String!
+}
+
+type OrderPaginationModel {
+  orders: [OrderEntity!]!
+  pagination: PaginationModel!
 }
 
 type Query {
@@ -73,6 +92,8 @@ type Query {
   rarities: [RarityEntity!]!
   cardTypes: [CardTypeEntity!]!
   pokemonTypes: [PokemonTypeEntity!]!
+  orders(pagination: PaginationArgs!): OrderPaginationModel!
+  myOrders(pagination: PaginationArgs!): OrderPaginationModel!
 }
 
 input PaginationArgs {
@@ -88,6 +109,8 @@ input CardFilterInput {
 type Mutation {
   login(loginCredentials: LoginInput!): AuthUser!
   register(registerCredentials: RegisterInput!): AuthUser!
+  quickSellCard(cardInfo: QuickSellCardInput!): CardEntity!
+  sellCard(price: Int!, cardId: Int!): CardEntity!
   openPack: [CardEntity!]!
 }
 
@@ -100,4 +123,13 @@ input RegisterInput {
   email: String!
   password: String!
   passwordConfirmation: String!
+}
+
+input QuickSellCardInput {
+  cardId: Int!
+  amount: Int!
+}
+
+type Subscription {
+  balanceChanged: Int!
 }

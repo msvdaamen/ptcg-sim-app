@@ -13,6 +13,22 @@ img {
 
 .table-container {
   width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+
+  .spacer {
+    flex: 1;
+  }
+
+  .quick-sell {
+    display: flex;
+    justify-content: flex-end;
+
+    .all {
+      margin-right: 1rem;
+    }
+  }
 }
 .image-container {
   width: 50%;

@@ -27,9 +27,15 @@ export interface RegisterInput {
     passwordConfirmation: string;
 }
 
+export interface QuickSellCardInput {
+    cardId: number;
+    amount: number;
+}
+
 export interface UserEntity {
     id: number;
     email: string;
+    balance: number;
 }
 
 export interface ImageEntity {
@@ -79,6 +85,14 @@ export interface CardPaginationModel {
     pagination: PaginationModel;
 }
 
+export interface OrderEntity {
+    id: number;
+    userId: number;
+    cardId: number;
+    price: number;
+    createdAt: DateTime;
+}
+
 export interface CardTypeEntity {
     id: number;
     name: string;
@@ -87,6 +101,11 @@ export interface CardTypeEntity {
 export interface PokemonTypeEntity {
     id: number;
     name: string;
+}
+
+export interface OrderPaginationModel {
+    orders: OrderEntity[];
+    pagination: PaginationModel;
 }
 
 export interface IQuery {
@@ -98,10 +117,16 @@ export interface IQuery {
     rarities(): RarityEntity[] | Promise<RarityEntity[]>;
     cardTypes(): CardTypeEntity[] | Promise<CardTypeEntity[]>;
     pokemonTypes(): PokemonTypeEntity[] | Promise<PokemonTypeEntity[]>;
+    orders(pagination: PaginationArgs): OrderPaginationModel | Promise<OrderPaginationModel>;
+    myOrders(pagination: PaginationArgs): OrderPaginationModel | Promise<OrderPaginationModel>;
 }
 
 export interface IMutation {
     login(loginCredentials: LoginInput): AuthUser | Promise<AuthUser>;
     register(registerCredentials: RegisterInput): AuthUser | Promise<AuthUser>;
+    quickSellCard(cardInfo: QuickSellCardInput): CardEntity | Promise<CardEntity>;
+    sellCard(price: number, cardId: number): CardEntity | Promise<CardEntity>;
     openPack(): CardEntity[] | Promise<CardEntity[]>;
 }
+
+export type DateTime = any;

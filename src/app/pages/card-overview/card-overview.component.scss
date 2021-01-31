@@ -4,9 +4,15 @@
 }
 
 .card-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-  grid-column-gap: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @media (min-width: 560px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+    grid-column-gap: 1rem;
+  }
 }
 
 .image-container {
@@ -20,7 +26,20 @@
 
 .search {
   padding-left: 1rem;
+  width: 50%;
+
+  @media (min-width: 530px) {
+    width: auto
+  }
 }
 .not-owned {
   opacity: 0.4;
+}
+
+.filter-type {
+  width: 50%;
+
+  @media (min-width: 530px) {
+    width: auto
+  }
 }
