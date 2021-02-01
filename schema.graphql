@@ -2,6 +2,19 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type OrderEntity {
+  id: Int!
+  userId: Int!
+  cardId: Int!
+  price: Int!
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type UserEntity {
   id: Int!
   email: String!
@@ -18,12 +31,14 @@ type ImageEntity {
 type RarityEntity {
   id: Int!
   name: String!
+  value: Int!
   totalCards: Int!
   cardsOwned: Int!
 }
 
 type CardEntity {
   id: Int!
+  rarityId: Int!
   name: String!
   hp: String
   number: String
@@ -54,19 +69,6 @@ type CardPaginationModel {
   cards: [CardEntity!]!
   pagination: PaginationModel!
 }
-
-type OrderEntity {
-  id: Int!
-  userId: Int!
-  cardId: Int!
-  price: Int!
-  createdAt: DateTime!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type CardTypeEntity {
   id: Int!
@@ -110,8 +112,10 @@ type Mutation {
   login(loginCredentials: LoginInput!): AuthUser!
   register(registerCredentials: RegisterInput!): AuthUser!
   quickSellCard(cardInfo: QuickSellCardInput!): CardEntity!
-  sellCard(price: Int!, cardId: Int!): CardEntity!
   openPack: [CardEntity!]!
+  createOrder(order: CreateOrderInput!): CardEntity!
+  cancelOrder(orderId: Int!): Boolean!
+  buyOrder(orderId: Int!): Boolean!
 }
 
 input LoginInput {
@@ -128,6 +132,11 @@ input RegisterInput {
 input QuickSellCardInput {
   cardId: Int!
   amount: Int!
+}
+
+input CreateOrderInput {
+  cardId: Int!
+  price: Int!
 }
 
 type Subscription {

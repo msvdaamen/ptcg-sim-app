@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {Apollo, gql} from 'apollo-angular';
 import {CardEntity} from '../../graphql';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -8,6 +8,8 @@ const OPEN_PACK_MUTATION = gql`
         openPack {
           id
           name
+          amount
+          rarityId
           image {
             url
           }
@@ -57,6 +59,15 @@ export class PackOpenerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  @HostListener('window:keyup.space')
+  spacePresses(): void {
+    if (this.isOpeningPack) {
+      this.viewNextCardStart(0);
+    } else if (this.packOverview) {
+      this.openPack();
+    }
   }
 
   openPack(): void {

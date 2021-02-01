@@ -28,9 +28,19 @@
     &:not(:first-child):not(.is-next-card) {
       visibility: hidden;
     }
+
+    .new-badge {
+      position: absolute;
+      color: red;
+      background-color: yellow;
+      padding: 0.2rem 0.5rem;
+      right: -20px;
+      top: -8px;
+      transform: rotate(45deg);
+      border-radius: 1rem;
+    }
   }
 }
-
 .pack-overview-container {
   display: flex;
   justify-content: center;
@@ -44,10 +54,83 @@
     grid-row-gap: 2rem;
     justify-content: center;
   }
+  .card {
+    padding-bottom: 1rem;
+
+    @media (min-width: 490px) {
+      padding-bottom: 0;
+    }
+
+    img {
+      display: block;
+    }
+    .card-wrapper {
+      position: relative;
+      float: left;
+
+      .new-badge {
+        position: absolute;
+        color: red;
+        background-color: yellow;
+        padding: 0.2rem 0.5rem;
+        right: -20px;
+        top: -8px;
+        transform: rotate(45deg);
+        border-radius: 1rem;
+      }
+
+
+    }
+  }
 }
 .next-pack {
   position: fixed;
   bottom: 5px;
   width: 100%;
   text-align: center;
+}
+
+@keyframes holoSparkle {
+  0%, 5% {
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+.rare:before,
+.rare:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-image: linear-gradient(
+      115deg,
+      transparent 0%,
+      rgb(0, 231, 255) 30%,
+      rgb(255, 0, 231) 70%,
+      transparent 100%
+  );
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+  background-size: 300% 300%;
+  mix-blend-mode: color-dodge;
+  opacity: 0.2;
+  z-index: 1;
+  animation: holoGradient 15s ease infinite;
+}
+.rare:after {
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/13471/sparkles.gif");
+  background-position: center;
+  background-size: 180%;
+  mix-blend-mode: color-dodge;
+  opacity: 1;
+  z-index: 2;
+  animation: holoSparkle 15s ease infinite;
 }

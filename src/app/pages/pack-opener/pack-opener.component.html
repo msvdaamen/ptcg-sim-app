@@ -3,13 +3,17 @@
 </div>
 
 <div class="pack-open-container" *ngIf="isOpeningPack" #packOpenContainer>
-  <div class="card" *ngFor="let card of packCards; let i = index" (click)="viewNextCardStart(i)" [id]="'card-' + i" [@viewCardAnimation]="getAnimationState(i)" (@viewCardAnimation.done)="viewNextCard($event)">
+  <div class="card" [class.rare]="card.rarityId > 2" *ngFor="let card of packCards; let i = index" (click)="viewNextCardStart(i)" [id]="'card-' + i" [@viewCardAnimation]="getAnimationState(i)" (@viewCardAnimation.done)="viewNextCard($event)">
+    <span class="new-badge" *ngIf="card.amount === 1">New</span>
     <img [src]="card.image.url" alt="">
   </div>
 </div>
 <div class="pack-overview-container" *ngIf="packOverview">
   <div class="card" *ngFor="let card of cards; let i = index">
-    <img [src]="card.image.url" alt="">
+    <div class="card-wrapper" [class.rare]="card.rarityId > 2">
+      <span class="new-badge" *ngIf="card.amount === 1">New</span>
+      <img [src]="card.image.url" alt="">
+    </div>
   </div>
 </div>
 
