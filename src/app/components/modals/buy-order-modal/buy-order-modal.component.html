@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Buy card</h1>
+<div mat-dialog-content>
+  <ng-container *ngIf="balance >= data.order.price; else elseBlock">
+    <span>You sure you wanna buy this card?</span>
+  </ng-container>
+  <ng-template #elseBlock>
+    <span>You do not have enough money to buy this card</span>
+  </ng-template>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button mat-dialog-close>Cancel</button>
+  <button mat-button *ngIf="balance >= data.order.price" (click)="buy()">Buy</button>
+</div>

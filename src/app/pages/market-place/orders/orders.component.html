@@ -1,0 +1,9 @@
+<div class="card-container">
+  <div class="card" *ngFor="let order of orders$ | async" (click)="buyOrder(order)">
+    <span>{{order.card.name}}</span>
+    <div class="image-container">
+      <img [src]="order.card.smallImage.url" width="245" height="342" appLazyLoadImage >
+    </div>
+    <span>{{order.price | currency: 'EUR'}}</span>
+  </div>
+</div>

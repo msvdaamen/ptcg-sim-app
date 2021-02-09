@@ -12,7 +12,7 @@ const MY_CARDS = gql`
           id
           name
           amount
-          image {
+          smallImage {
             url
           }
         }

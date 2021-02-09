@@ -16,7 +16,7 @@
     <div class="card" *ngFor="let card of cards; trackBy: trackByF">
       <span>{{card.name}} ({{card.amount}})</span>
       <div class="image-container">
-        <img [src]="card.image.url" width="245" height="342" appLazyLoadImage (click)="viewCard(card.id)">
+        <img [src]="card.smallImage.url" width="245" height="342" appLazyLoadImage (click)="viewCard(card.id)">
       </div>
     </div>
   </div>

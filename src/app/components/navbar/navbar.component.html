@@ -1,6 +1,6 @@
 <header *ngIf="user$ | async as user">
   <button mat-icon-button routerLink="/">Home</button>
   <div class="spacer"></div>
-  <span class="poke-coins">{{user.balance}}&euro;</span>
+  <span class="poke-coins">{{user.balance | currency: 'EUR'}}</span>
 </header>
 

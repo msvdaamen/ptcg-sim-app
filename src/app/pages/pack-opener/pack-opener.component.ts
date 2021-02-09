@@ -10,7 +10,7 @@ const OPEN_PACK_MUTATION = gql`
           name
           amount
           rarityId
-          image {
+          smallImage {
             url
           }
         }

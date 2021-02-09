@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.user$ = this.apollo.watchQuery<{me: UserEntity}>({
       query: ME_QUERY,
-      fetchPolicy: 'cache-only'
+      fetchPolicy: 'cache-first'
     }).valueChanges.pipe(map(({data}) => data.me));
 
     this.apollo.subscribe<{balanceChanged: number}>({

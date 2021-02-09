@@ -12,6 +12,7 @@
       <mat-label>Password confirmation</mat-label>
       <input type="password" matInput placeholder="Password confirmation" formControlName="passwordConfirmation">
     </mat-form-field>
-    <button mat-button class="submit" [disabled]="registerForm.invalid" (click)="register()">Register</button>
+    <button mat-flat-button class="submit" [disabled]="registerForm.invalid" (click)="register()">Register</button>
+    <button mat-button routerLink="/auth/login">Login</button>
   </form>
 </div>

@@ -18,16 +18,21 @@
             <td class="mat-cell">Rarity:</td>
             <td class="mat-cell">{{card.rarity.name}}</td>
           </tr>
+          <tr class="mat-row">
+            <td class="mat-cell">Price:</td>
+            <td class="mat-cell">{{card.price |currency: 'EUR'}}</td>
+          </tr>
         </tbody>
       </table>
       <div class="spacer"></div>
       <div class="quick-sell" *ngIf="card.amount > 0">
+        <button mat-flat-button (click)="sell(card.id)">Sell on market</button>
         <button mat-button class="all" (click)="quickSell(card.id, 1)">Quick sell</button>
         <button mat-button class="one" (click)="quickSell(card.id, card.amount)">Quick sell all</button>
       </div>
     </div>
     <div class="image-container">
-      <img [src]="card.imageHRes.url" (load)="showInfo()">
+      <img [src]="card.largeImage.url" (load)="showInfo()">
     </div>
   </div>
 </div>

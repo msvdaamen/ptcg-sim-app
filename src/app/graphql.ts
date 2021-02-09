@@ -37,20 +37,6 @@ export interface CreateOrderInput {
     price: number;
 }
 
-export interface OrderEntity {
-    id: number;
-    userId: number;
-    cardId: number;
-    price: number;
-    createdAt: DateTime;
-}
-
-export interface UserEntity {
-    id: number;
-    email: string;
-    balance: number;
-}
-
 export interface ImageEntity {
     id: number;
     name: string;
@@ -61,24 +47,54 @@ export interface ImageEntity {
 export interface RarityEntity {
     id: number;
     name: string;
-    value: number;
     totalCards: number;
     cardsOwned: number;
+}
+
+export interface OrderSuccessEntity {
+    id: number;
+    userId: number;
+    cardId: number;
+    price: number;
+    createdAt: DateTime;
+    card: CardEntity;
 }
 
 export interface CardEntity {
     id: number;
     rarityId: number;
     name: string;
+    price: number;
     hp?: string;
     number?: string;
     nationalPokedexNumber?: number;
     description?: string;
-    image?: ImageEntity;
-    imageHRes?: ImageEntity;
+    smallImage?: ImageEntity;
+    largeImage?: ImageEntity;
     rarity: RarityEntity;
     hasCard: boolean;
     amount: number;
+}
+
+export interface OrderEntity {
+    id: number;
+    userId: number;
+    cardId: number;
+    price: number;
+    createdAt: DateTime;
+    card: CardEntity;
+}
+
+export interface UserEntity {
+    id: number;
+    email: string;
+    balance: number;
+    stats: UserStatsEntity;
+}
+
+export interface UserStatsEntity {
+    userId: string;
+    packsOpened: number;
 }
 
 export interface AuthUser {
@@ -110,6 +126,13 @@ export interface PokemonTypeEntity {
     name: string;
 }
 
+export interface PackEntity {
+    id: number;
+    title: string;
+    description?: string;
+    price: number;
+}
+
 export interface OrderPaginationModel {
     orders: OrderEntity[];
     pagination: PaginationModel;
@@ -126,13 +149,15 @@ export interface IQuery {
     pokemonTypes(): PokemonTypeEntity[] | Promise<PokemonTypeEntity[]>;
     orders(pagination: PaginationArgs): OrderPaginationModel | Promise<OrderPaginationModel>;
     myOrders(pagination: PaginationArgs): OrderPaginationModel | Promise<OrderPaginationModel>;
+    myOrderSuccess(): OrderSuccessEntity[] | Promise<OrderSuccessEntity[]>;
+    packs(): PackEntity[] | Promise<PackEntity[]>;
 }
 
 export interface IMutation {
     login(loginCredentials: LoginInput): AuthUser | Promise<AuthUser>;
     register(registerCredentials: RegisterInput): AuthUser | Promise<AuthUser>;
     quickSellCard(cardInfo: QuickSellCardInput): CardEntity | Promise<CardEntity>;
-    openPack(): CardEntity[] | Promise<CardEntity[]>;
+    openPack(packId?: number): CardEntity[] | Promise<CardEntity[]>;
     createOrder(order: CreateOrderInput): CardEntity | Promise<CardEntity>;
     cancelOrder(orderId: number): boolean | Promise<boolean>;
     buyOrder(orderId: number): boolean | Promise<boolean>;

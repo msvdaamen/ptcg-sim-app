@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {Apollo, gql} from 'apollo-angular';
 import {map} from 'rxjs/operators';
 import {CommonModule} from '@angular/common';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatButtonModule} from '@angular/material/button';
 
@@ -14,7 +14,8 @@ const CARD_QUERY = gql`
           id
           name
           amount
-          imageHRes {
+          price
+          largeImage {
             url
           }
           rarity {
@@ -46,7 +47,8 @@ export class CardInfoModalComponent implements OnInit {
 
   constructor(
     private apollo: Apollo,
-    @Inject(MAT_DIALOG_DATA) public data: {cardId: number}
+    @Inject(MAT_DIALOG_DATA) public data: {cardId: number},
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -60,6 +62,15 @@ export class CardInfoModalComponent implements OnInit {
 
   showInfo(): void {
     this.imageLoaded = true;
+  }
+
+  async sell(cardId: number): Promise<any> {
+    const {SellCardModalComponent} = await import('../sell-card-modal/sell-card-modal.component');
+    const dialogRef = this.dialog.open(SellCardModalComponent, {
+      data: {
+        cardId
+      }
+    });
   }
 
   quickSell(cardId: number, amount: number): void {

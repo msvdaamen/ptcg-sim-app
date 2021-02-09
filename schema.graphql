@@ -2,25 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type OrderEntity {
-  id: Int!
-  userId: Int!
-  cardId: Int!
-  price: Int!
-  createdAt: DateTime!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type UserEntity {
-  id: Int!
-  email: String!
-  balance: Float!
-}
-
 type ImageEntity {
   id: Int!
   name: String!
@@ -31,24 +12,59 @@ type ImageEntity {
 type RarityEntity {
   id: Int!
   name: String!
-  value: Int!
   totalCards: Int!
   cardsOwned: Int!
 }
+
+type OrderSuccessEntity {
+  id: Int!
+  userId: Int!
+  cardId: Int!
+  price: Int!
+  createdAt: DateTime!
+  card: CardEntity!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type CardEntity {
   id: Int!
   rarityId: Int!
   name: String!
+  price: Float!
   hp: String
   number: String
   nationalPokedexNumber: Float
   description: String
-  image: ImageEntity
-  imageHRes: ImageEntity
+  smallImage: ImageEntity
+  largeImage: ImageEntity
   rarity: RarityEntity!
   hasCard: Boolean!
   amount: Float!
+}
+
+type OrderEntity {
+  id: Int!
+  userId: Int!
+  cardId: Int!
+  price: Int!
+  createdAt: DateTime!
+  card: CardEntity!
+}
+
+type UserEntity {
+  id: Int!
+  email: String!
+  balance: Float!
+  stats: UserStatsEntity!
+}
+
+type UserStatsEntity {
+  userId: ID!
+  packsOpened: Int!
 }
 
 type AuthUser {
@@ -80,6 +96,13 @@ type PokemonTypeEntity {
   name: String!
 }
 
+type PackEntity {
+  id: Int!
+  title: String!
+  description: String
+  price: Int!
+}
+
 type OrderPaginationModel {
   orders: [OrderEntity!]!
   pagination: PaginationModel!
@@ -96,6 +119,8 @@ type Query {
   pokemonTypes: [PokemonTypeEntity!]!
   orders(pagination: PaginationArgs!): OrderPaginationModel!
   myOrders(pagination: PaginationArgs!): OrderPaginationModel!
+  myOrderSuccess: [OrderSuccessEntity!]!
+  packs: [PackEntity!]!
 }
 
 input PaginationArgs {
@@ -112,7 +137,7 @@ type Mutation {
   login(loginCredentials: LoginInput!): AuthUser!
   register(registerCredentials: RegisterInput!): AuthUser!
   quickSellCard(cardInfo: QuickSellCardInput!): CardEntity!
-  openPack: [CardEntity!]!
+  openPack(packId: Int): [CardEntity!]!
   createOrder(order: CreateOrderInput!): CardEntity!
   cancelOrder(orderId: Int!): Boolean!
   buyOrder(orderId: Int!): Boolean!
@@ -136,7 +161,7 @@ input QuickSellCardInput {
 
 input CreateOrderInput {
   cardId: Int!
-  price: Int!
+  price: Float!
 }
 
 type Subscription {

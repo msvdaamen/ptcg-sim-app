@@ -16,7 +16,7 @@
     <div class="card" *ngFor="let card of cards">
       <span>{{card.name}} ({{card.amount}})</span>
       <div class="image-container">
-        <img [src]="card.image.url" [class.not-owned]="card.amount === 0" width="245" height="342" appLazyLoadImage (click)="viewCard(card.id)">
+        <img [src]="card.smallImage.url" [class.not-owned]="card.amount === 0" width="245" height="342" appLazyLoadImage (click)="viewCard(card.id)">
       </div>
     </div>
   </div>

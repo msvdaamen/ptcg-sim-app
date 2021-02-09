@@ -21,7 +21,7 @@ const CARDS_QUERY = gql`
         id
         name
         amount
-        image {
+        smallImage {
           url
         }
       }

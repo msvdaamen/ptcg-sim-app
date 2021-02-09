@@ -33,6 +33,11 @@ const routes: Routes = [
     path: 'rarity-overview',
     canActivate: [AuthGuard],
     component: RarityOverviewComponent
+  },
+  {
+    path: 'market-place',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/market-place/market-place.module').then(m => m.MarketPlaceModule)
   }
 ];
 
