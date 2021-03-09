@@ -72,9 +72,10 @@ export class CardOverviewComponent implements OnInit, OnDestroy {
         page: this.page,
         amount: this.amount,
         rarity: this.rarity,
-        reset: true,
         search: this.searchValue
-      }
+      },
+      fetchPolicy: 'network-only',
+      nextFetchPolicy: 'cache-first'
     });
     this.cardsQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(({data}) => {
       this.cards = data.cardsPaginated.cards;
@@ -107,38 +108,31 @@ export class CardOverviewComponent implements OnInit, OnDestroy {
   loadMore(): void {
     if (this.pagination.totalPages > this.page) {
       this.page++;
-      this.cardsQuery.fetchMore({
-        variables: {
-          page: this.page,
-          amount: this.amount,
-          rarity: this.rarity,
-          reset: false,
-          search: this.searchValue
-        },
-      });
+      this.fetchMore();
     }
+  }
+
+  fetchMore(): void {
+    this.cardsQuery.fetchMore({
+      variables: {
+        page: this.page,
+        amount: this.amount,
+        rarity: this.rarity,
+        search: this.searchValue
+      },
+    });
   }
 
   selectChanged(value: number): void {
     this.rarity = value;
     this.page = 1;
-    this.cardsQuery.refetch({
-      page: this.page,
-      reset: true,
-      rarity: value,
-      search: this.searchValue
-    });
+    this.fetchMore();
   }
 
   searchQuery(search: string): void {
     this.searchValue = search;
     this.page = 1;
-    this.cardsQuery.refetch({
-      page: this.page,
-      reset: true,
-      rarity: this.rarity,
-      search: this.searchValue
-    });
+    this.fetchMore();
   }
 
   searchStart(value): void {

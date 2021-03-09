@@ -1,9 +1,14 @@
-<div class="card-container">
-  <div class="card" *ngFor="let order of orders$ | async" (click)="buyOrder(order)">
-    <span>{{order.card.name}}</span>
-    <div class="image-container">
-      <img [src]="order.card.smallImage.url" width="245" height="342" appLazyLoadImage >
+<!--<virtual-scroller class="view-port" #scroll [items]="orders" [parentScroll]="scroll.window" (vsEnd)="nextPage($event)">-->
+<!--</virtual-scroller>-->
+<div class="container" appLazyScroll (isBottom)="nextPage()">
+  <div class="card-container">
+    <div class="card" *ngFor="let order of orders" (click)="buyOrder(order)">
+      <span>{{order.card.name}}</span>
+      <div class="image-container">
+        <img [src]="order.card.smallImage.url" class="card-image" appLazyLoadImage>
+      </div>
+      <span>{{order.price | currency: 'EUR'}}</span>
     </div>
-    <span>{{order.price | currency: 'EUR'}}</span>
   </div>
+  <div *ngIf="loading" class="loader">Loading...</div>
 </div>

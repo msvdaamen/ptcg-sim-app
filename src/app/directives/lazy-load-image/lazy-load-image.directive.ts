@@ -1,4 +1,4 @@
-import {AfterViewInit, Directive, ElementRef, HostBinding, Input} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Directive, ElementRef, HostBinding, Input} from '@angular/core';
 
 
 @Directive({

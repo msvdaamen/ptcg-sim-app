@@ -72,11 +72,10 @@ export class BuyOrderModalComponent implements OnInit, OnDestroy {
               }
             }
           });
-
         }
       }
     }).subscribe(response => {
-    this.dialogRef.close();
+      this.dialogRef.close(true);
     });
   }
 

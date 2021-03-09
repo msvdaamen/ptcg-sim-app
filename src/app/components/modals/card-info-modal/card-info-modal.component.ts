@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {Apollo, gql} from 'apollo-angular';
 import {map} from 'rxjs/operators';
 import {CommonModule} from '@angular/common';
-import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatButtonModule} from '@angular/material/button';
 
@@ -48,7 +48,8 @@ export class CardInfoModalComponent implements OnInit {
   constructor(
     private apollo: Apollo,
     @Inject(MAT_DIALOG_DATA) public data: {cardId: number},
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public dialogRef: MatDialogRef<CardInfoModalComponent>
   ) { }
 
   ngOnInit(): void {
@@ -69,6 +70,11 @@ export class CardInfoModalComponent implements OnInit {
     const dialogRef = this.dialog.open(SellCardModalComponent, {
       data: {
         cardId
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dialogRef.close();
       }
     });
   }
@@ -95,8 +101,11 @@ export class CardInfoModalComponent implements OnInit {
           });
         }
       }
-    }).subscribe(response => {
-
+    }).subscribe(({data}) => {
+      const card = data.quickSellCard;
+      if (card.amount === 0) {
+        this.dialogRef.close();
+      }
     });
   }
 }

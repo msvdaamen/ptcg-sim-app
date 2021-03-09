@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {APOLLO_OPTIONS} from 'apollo-angular';
 import {ApolloClientOptions, InMemoryCache, split} from '@apollo/client/core';
 import {HttpLink} from 'apollo-angular/http';
-import {CardPaginationModel} from './graphql';
+import {CardPaginationModel, OrderPaginationModel} from './graphql';
 import {WebSocketLink} from '@apollo/client/link/ws';
 import {getMainDefinition} from '@apollo/client/utilities';
 import {OperationDefinitionNode} from 'graphql';
@@ -43,33 +43,45 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
           fields: {
             myCards: {
               keyArgs: false,
-              merge(existing = {cards: []}, incoming, {variables: {reset}}): CardPaginationModel {
-                if (reset) {
+              merge(existing = {cards: []}, incoming, {args}): CardPaginationModel {
+                if (args.pagination.page === 1) {
                   return incoming;
-                } else {
-                  const cards = [...existing.cards, ...incoming.cards];
-                  const values = {
-                    cards,
-                    pagination: incoming.pagination
-                  };
-                  return values;
                 }
+                const cards = [...existing.cards, ...incoming.cards];
+                const values = {
+                  cards,
+                  pagination: incoming.pagination
+                };
+                return values;
               }
             },
             cardsPaginated: {
               keyArgs: false,
-              merge(existing = {cards: []}, incoming, {variables: {reset}}): CardPaginationModel {
-                if (reset) {
+              merge(existing = {cards: []}, incoming, {args}): CardPaginationModel {
+                if (args.pagination.page === 1) {
                   return incoming;
-                } else {
-                  const cards = [...existing.cards, ...incoming.cards];
-                  const values = {
-                    cards,
-                    pagination: incoming.pagination
-                  };
-                  return values;
                 }
+                const cards = [...existing.cards, ...incoming.cards];
+                const values = {
+                  cards,
+                  pagination: incoming.pagination
+                };
+                return values;
               }
+            },
+            orders: {
+              keyArgs: false,
+              merge(existing = {orders: []}, incoming, {args}): OrderPaginationModel {
+                if (args.pagination.page === 1) {
+                  return incoming;
+                }
+                const orders = [...existing.orders, ...incoming.orders];
+                const values = {
+                  orders,
+                  pagination: incoming.pagination
+                };
+                return values;
+              },
             }
           }
         }

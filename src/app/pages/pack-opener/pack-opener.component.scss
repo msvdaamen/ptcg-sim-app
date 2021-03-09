@@ -1,3 +1,5 @@
+$width: 245px;
+
 .center {
   display: flex;
   flex-direction: column;
@@ -42,28 +44,27 @@
   }
 }
 .pack-overview-container {
-  display: flex;
+  display: grid;
+  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  padding-bottom: 25px;
+  grid-template-columns: repeat(auto-fit, $width / 2);
+  grid-column-gap: 1rem;
+  font-size: 10px;
 
-  @media (min-width: 490px) {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-    grid-column-gap: 1rem;
-    grid-row-gap: 2rem;
-    justify-content: center;
+  @media (min-width: 560px) {
+    grid-template-columns: repeat(auto-fit, $width);
+    font-size: initial;
   }
-  .card {
-    padding-bottom: 1rem;
 
-    @media (min-width: 490px) {
-      padding-bottom: 0;
-    }
+  .card {
+    align-self: center;
+    justify-self: center;
 
     img {
-      display: block;
+      max-width: 100%;
+      max-height: 100%;
     }
+
     .card-wrapper {
       position: relative;
       float: left;
@@ -88,6 +89,7 @@
   bottom: 5px;
   width: 100%;
   text-align: center;
+  z-index: 10;
 }
 
 @keyframes holoSparkle {

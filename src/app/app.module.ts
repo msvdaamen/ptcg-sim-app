@@ -13,6 +13,8 @@ import {GuardsModule} from './guards/guards.module';
 import {MatButtonModule} from '@angular/material/button';
 import {RarityOverviewComponent} from './pages/rarity-overview/rarity-overview.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     HttpClientModule,
     GuardsModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -1,8 +1,5 @@
 <div class="card" *ngIf="card$ | async as card">
-  <div class="spinner-container">
-    <mat-spinner *ngIf="!imageLoaded"></mat-spinner>
-  </div>
-  <div class="info-container" [class.loading]="!imageLoaded">
+  <ng-container [class.loading]="!imageLoaded">
     <div class="table-container">
       <table class="mat-table">
         <tbody>
@@ -25,14 +22,17 @@
         </tbody>
       </table>
       <div class="spacer"></div>
-      <div class="quick-sell" *ngIf="card.amount > 0">
+      <div class="sell-options" *ngIf="card.amount > 0">
         <button mat-flat-button (click)="sell(card.id)">Sell on market</button>
-        <button mat-button class="all" (click)="quickSell(card.id, 1)">Quick sell</button>
-        <button mat-button class="one" (click)="quickSell(card.id, card.amount)">Quick sell all</button>
+        <button mat-button (click)="quickSell(card.id, 1)">Quick sell</button>
+        <button mat-button (click)="quickSell(card.id, card.amount)">Quick sell all</button>
       </div>
     </div>
     <div class="image-container">
-      <img [src]="card.largeImage.url" (load)="showInfo()">
+      <img class="card-image" [src]="card.largeImage.url" (load)="showInfo()">
     </div>
-  </div>
+  </ng-container>
+</div>
+<div class="spinner-container">
+  <mat-spinner *ngIf="!imageLoaded"></mat-spinner>
 </div>

@@ -58,7 +58,7 @@ export class SellCardModalComponent implements OnInit {
         }
       }
     }).subscribe(response => {
-      this.dialogRef.close();
+      this.dialogRef.close(true);
     });
   }
 

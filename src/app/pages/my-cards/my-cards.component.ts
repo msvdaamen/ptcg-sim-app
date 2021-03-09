@@ -72,9 +72,10 @@ export class MyCardsComponent implements OnInit, OnDestroy {
         page: this.page,
         amount: this.amount,
         rarity: this.rarity,
-        reset: true,
         search: this.searchValue
-      }
+      },
+      fetchPolicy: 'network-only',
+      nextFetchPolicy: 'cache-first'
     });
     this.cardsQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(({data}) => {
       this.cards = data.myCards.cards;
@@ -112,7 +113,6 @@ export class MyCardsComponent implements OnInit, OnDestroy {
           page: this.page,
           amount: this.amount,
           rarity: this.rarity,
-          reset: false,
           search: this.searchValue
         },
       });
@@ -124,9 +124,9 @@ export class MyCardsComponent implements OnInit, OnDestroy {
     this.page = 1;
     this.cardsQuery.refetch({
       page: this.page,
-      reset: true,
       rarity: value,
-      search: this.searchValue
+      search: this.searchValue,
+      amount: this.amount
     });
   }
 
@@ -135,9 +135,9 @@ export class MyCardsComponent implements OnInit, OnDestroy {
     this.page = 1;
     this.cardsQuery.refetch({
       page: this.page,
-      reset: true,
       rarity: this.rarity,
-      search: this.searchValue
+      search: this.searchValue,
+      amount: this.amount
     });
   }
 
